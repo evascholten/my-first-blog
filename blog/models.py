@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
+# What a Post consists of. We see all these aspects on the admin page (author, title, text, create date and published date)
 
 class Post(models.Model):
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
