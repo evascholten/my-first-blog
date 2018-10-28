@@ -4,16 +4,24 @@ from django.shortcuts import render
 from django.utils import timezone
 #Import the model of the posts, so the parts it consists of (name, author, etc)
 from .models import Post
+# when you ander a pk value that does not exist you get a nice error message 
+from django.shortcuts import render, get_object_or_404
 
 
-# Create your views here.
+# views are below
 
 def post_list(request):
     #Take the actual blog posts from the Post model and publish posts sorted by published_date
     #create a variable for QuerySet, named post. QuesrySet is called post.
-    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+    posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('-published_date')
     #parameter request: everything we receive from the user via internet
     #parameter 'blog/post_list.html': giving the template file
     #parameter {}: place in which we can add some things for the template to use
     return render(request, 'blog/post_list.html', {'posts': posts})
+
+#To see a single post/details of a post
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    return render(request, 'blog/post_detail.html', {'post': post})
+    # Refers to the post_detail.html template
     
